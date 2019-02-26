@@ -3,22 +3,24 @@ import time
 
 def checkDataFetch(retCode, obj, descr=''):
     if retCode == vrep.simx_return_ok:
-        print('---'+descr+' successfully retrieved: '+str(obj))
+        print('---'+descr+' retrieved: '+str(obj))
     else:
-        print('Failed fetch with return code: {:d}\n'.format(retCode))
+        print('Failed fetching {:s} with return code: {:d}'.format(descr, retCode))
 
 def getRobotPosition(nsecs):
+    ''' get the position of the robot after nsecs seconds '''
     print ('Program started')
     vrep.simxFinish(-1) # just in case, close all opened connections
     clientID=vrep.simxStart('127.0.0.1',19997,True,True,5000,5) # Connect to V-REP
 
     if clientID!=-1:
+        vrep.simxLoadScene(clientID, './EvolMor.ttt', 0, vrep.simx_opmode_blocking)
         print ('Connected to remote API server')
 
         vrep.simxStartSimulation(clientID,vrep.simx_opmode_oneshot_wait)
 
         retCodeHandle, robotHandle = vrep.simxGetObjectHandle(clientID, 'robot_shape', vrep.simx_opmode_blocking)
-        checkDataFetch(retCodeHandle, robotHandle, 'handle')
+        checkDataFetch(retCodeHandle, robotHandle, 'robot handle')
 
         # give the robot time to move
         time.sleep(nsecs)

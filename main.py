@@ -1,4 +1,5 @@
 from robotIndividual import RobotIndividual
+from funcsForEvaluation import getRobotPosition
 
 import array
 import random
@@ -39,13 +40,10 @@ def main():
 
 # pop is our final generation, log stores statistics, and hof 
 # contains the best individuals of all time
-pop, log, hof = main()
+# pop, log, hof = main()
 
 
 # code to test various functions
-# p = runSim.getRobotPosition(nsecs=5)
-# print("position: ", p)
-# r = RobotIndividual()
-# RobotIndividual.mutate(r, 0.5)
-# r.evaluate()
-# print("ok")
+r = RobotIndividual()
+r.evaluate()
+print("ok")

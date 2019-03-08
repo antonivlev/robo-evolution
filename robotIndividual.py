@@ -5,13 +5,22 @@ from funcsForEvaluation import getRobotPosition
 
 class RobotIndividual:
     def __init__(self):
-        # Right now a robot is a list of 50 coordinates, first 5 are for the organs.
-        # Eventally the idea is to have the gaussians initiated here,
-        # and generate the actual points only on evaluation of the individual
-        self.points = [ 
-            [random.random()*10, random.random()*10, random.random()*10]  
-            for _ in range(50) 
-        ]
+        # first 5 are for the organs.
+        organs = [ [random.random()*10 for _ in range(3)] for _ in range(5) ]
+        # z is vertical
+        # self.points = organs + [ 
+        #     [0, 0, 0],
+        #     [0, 10, 0],
+        #     [10, 0, 0],
+        #     [10, 10, 0],
+
+        #     [0, 0, 10],
+        #     [0, 10, 10],
+        #     [10, 0, 10],
+        #     [10, 10, 10],
+        # ]
+        self.points = organs + [[x, 0, 0] for x in np.linspace(0, 10, 5)]
+
 
     def mutate(self, prob):
         # will define mutation for our gaussian centers/widths here
@@ -38,8 +47,10 @@ class RobotIndividual:
         # adjust path to your vrep installation
         with open('../V-REP_PRO_EDU_V3_5_0_Linux/Coordinates.csv', 'w') as f:
             writer = csv.writer(f, delimiter=",")
+            print("points: ", self.points)
             writer.writerows(self.points)
-
-        pos = getRobotPosition(nsecs=1)
+        
+        pos = getRobotPosition(nsecs=1000)
+            
         return np.linalg.norm(self.points),
 

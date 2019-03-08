@@ -25,8 +25,17 @@ def getRobotPosition(nsecs):
         retCodeHandle, robotHandle = vrep.simxGetObjectHandle(clientID, 'robot_shape', vrep.simx_opmode_blocking)
         checkDataFetch(retCodeHandle, robotHandle, 'robot handle')
 
-        # give the robot time to move
-        time.sleep(nsecs)
+
+        # time.sleep(nsecs)
+        try:
+            # give the robot time to move
+            time.sleep(nsecs)
+        except KeyboardInterrupt:
+            vrep.simxStopSimulation(clientID,vrep.simx_opmode_oneshot_wait)
+            # Before closing the connection to V-REP, make sure that the last command sent out had time to arrive. You can guarantee this with (for example):
+            vrep.simxGetPingTime(clientID)
+            # Now close the connection to V-REP:
+            vrep.simxFinish(clientID)
 
         retCodePos, objectPos = vrep.simxGetObjectPosition(clientID, robotHandle, -1, vrep.simx_opmode_blocking);
         checkDataFetch(retCodePos, objectPos, 'position')

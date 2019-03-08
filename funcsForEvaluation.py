@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, './vrep-libs')
+
 import vrep
 import time
 

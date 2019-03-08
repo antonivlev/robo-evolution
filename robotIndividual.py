@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import csv
-import runSim
+from funcsForEvaluation import getRobotPosition
 
 class RobotIndividual:
     def __init__(self):
@@ -32,11 +32,14 @@ class RobotIndividual:
         return self,
     
     def evaluate(self):
+        ''' writes the points to a csv file, runs sim for 1 sec, returns distance
+            from origin as fitness'''
+
         # adjust path to your vrep installation
         with open('../V-REP_PRO_EDU_V3_5_0_Linux/Coordinates.csv', 'w') as f:
             writer = csv.writer(f, delimiter=",")
             writer.writerows(self.points)
 
-        pos = runSim.getRobotPosition(1)
+        pos = getRobotPosition(nsecs=1)
         return np.linalg.norm(self.points),
 

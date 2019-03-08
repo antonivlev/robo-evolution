@@ -1,4 +1,3 @@
-import runSim
 from robotIndividual import RobotIndividual
 
 import array
@@ -17,9 +16,10 @@ creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 creator.create("Individual", RobotIndividual, fitness=creator.FitnessMax)
 toolbox = base.Toolbox()
 
-# use the new  subclassed RobotIndividual to generate population
+# use the new subclassed RobotIndividual (it's now ceator.Individual) to register population() function
 toolbox.register("population", tools.initRepeat, list, creator.Individual)
 
+# tell framework what to use as evolution operators
 toolbox.register("evaluate", RobotIndividual.evaluate)
 toolbox.register("mutate", RobotIndividual.mutate, prob=0.5)
 toolbox.register("select", tools.selTournament, tournsize=3)

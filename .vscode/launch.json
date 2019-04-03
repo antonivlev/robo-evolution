@@ -12,6 +12,13 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Python: run main",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/anton/evolution-in-python/main.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Python: Remote Attach",
             "type": "python",
             "request": "attach",
